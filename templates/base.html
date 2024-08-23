@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}File Browser{% endblock %}</title>
+    <style>
+        body {
+            display: flex;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+        .navbar {
+            width: 200px;
+            background-color: #f1f1f1;
+            padding: 20px;
+        }
+        .navbar a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: black;
+        }
+        .navbar a.active {
+            background-color: #ddd;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="{{ url_for('index') }}" {% if request.path == url_for('index') %}class="active"{% endif %}>Home</a>
+        <a href="{{ url_for('category_page', category='FE') }}" {% if 'FE' in request.path %}class="active"{% endif %}>FE</a>
+        <a href="{{ url_for('category_page', category='SE') }}" {% if 'SE' in request.path %}class="active"{% endif %}>SE</a>
+        <a href="{{ url_for('category_page', category='TE') }}" {% if 'TE' in request.path %}class="active"{% endif %}>TE</a>
+        <a href="{{ url_for('category_page', category='BE') }}" {% if 'BE' in request.path %}class="active"{% endif %}>BE</a>
+    </div>
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}SE - File Browser{% endblock %}
+
+{% block content %}
+    <h1>Second Year Engineering (SE) Files</h1>
+    <p>Browse and download SE files:</p>
+    <ul>
+        <li><a href="{{ url_for('browse_files', category='SE', subpath='') }}">Browse SE Files</a></li>
+    </ul>
+{% endblock %}
