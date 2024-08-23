@@ -77,7 +77,8 @@ def register():
 def category_page(category):
     if category not in ['FE', 'SE', 'TE', 'BE']:
         abort(404)
-    return render_template(f'{category.lower()}.html', category=category)
+    return render_template(f'{category.lower()}.html', category=category, is_admin=current_user.is_admin)
+
 
 @app.route('/<category>/files/<path:subpath>')
 @login_required
