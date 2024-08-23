@@ -42,3 +42,16 @@ body {
     background-color: #f0f0f0;
     border: 1px solid #ddd;
 }
+
+
+
+.folder-icon {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.folder-icon i {
+    font-size: 52px; 
+    margin-right: 10px; 
+}

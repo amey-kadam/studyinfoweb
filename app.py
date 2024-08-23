@@ -58,7 +58,7 @@ def logout():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    if request.method == 'POST':
+    if request.method == ['POST']:
         username = request.form.get('username')
         password = request.form.get('password')
         existing_user = User.query.filter_by(username=username).first()
@@ -77,8 +77,22 @@ def register():
 def category_page(category):
     if category not in ['FE', 'SE', 'TE', 'BE']:
         abort(404)
-    return render_template(f'{category.lower()}.html', category=category, is_admin=current_user.is_admin)
 
+    # Define the subfolders
+    subfolders = ['QUESTION PAPERS', 'DECODE', 'BOOKS']
+
+    # Get the path to the category's directory
+    full_path = os.path.join(app.config['UPLOAD_FOLDER'], category)
+    
+    # Create subfolders if they don't exist
+    for folder in subfolders:
+        folder_path = os.path.join(full_path, folder)
+        os.makedirs(folder_path, exist_ok=True)
+
+    # List the subfolders
+    contents = os.listdir(full_path)
+
+    return render_template(f'{category.lower()}.html', category=category, contents=contents, is_admin=current_user.is_admin)
 
 @app.route('/<category>/files/<path:subpath>')
 @login_required
@@ -106,7 +120,7 @@ def browse_files(category, subpath):
 def upload_file(category):
     if not current_user.is_admin:
         abort(403)  # Forbidden
-    if request.method == 'POST':
+    if request.method == ['POST']:
         if 'file' not in request.files:
             flash('No file part')
             return redirect(request.url)

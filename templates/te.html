@@ -3,18 +3,33 @@
 {% block title %}TE - File Browser{% endblock %}
 
 {% block content %}
-    <h1>Third Year Engineering (TE) Files</h1>
-    <p>Browse and download TE files:</p>
+    <h1>First Year Engineering (TE) Files</h1>
     <ul>
-        <li><a href="{{ url_for('browse_files', category='TE', subpath='') }}">Browse TE Files</a></li>
+        <li>
+            <div class="folder-icon">
+                <i class="fa-solid fa-folder"></i>
+                <a href="{{ url_for('browse_files', category='TE', subpath='QUESTION PAPERS') }}">Question Papers</a>
+            </div>
+        </li>
+        <li>
+            <div class="folder-icon">
+                <i class="fa-solid fa-folder"></i>
+                <a href="{{ url_for('browse_files', category='TE', subpath='DECODE') }}">Decode</a>
+            </div>
+        </li>
+        <li>
+            <div class="folder-icon">
+                <i class="fa-solid fa-folder"></i>
+                <a href="{{ url_for('browse_files', category='TE', subpath='BOOKS') }}">Textbooks</a>
+            </div>
+        </li>
     </ul>
 
-    {% if is_admin %}
+    {% if current_user.is_admin %}
         <h2>Upload File to {{ category }}</h2>
         <form method="POST" enctype="multipart/form-data">
             <input type="file" name="file" required>
             <input type="submit" value="Upload">
         </form>
     {% endif %}
-
 {% endblock %}
