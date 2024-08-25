@@ -10,10 +10,10 @@ body {
 
 /* Layout */
 .container {
-    display: flex;
+    display: block; /* Change from flex to block */
     min-height: 100vh;
-    width: 100%;
-    margin: 0 auto;
+    width: calc(100% - 170px); /* Adjust the width to account for the navbar */
+    margin-left: 170px; /* Offset the container by the width of the navbar */
     background-color: #fff;
     box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
     border-radius: 15px;
@@ -25,9 +25,11 @@ body {
     background-color: #4CAF50;
     padding: 25px 15px;
     color: #ffffff;
-    position: sticky;
+    position: fixed; /* Change from sticky to fixed */
     top: 0;
+    left: 0; /* Add this to ensure it stays on the left */
     height: 100vh;
+    overflow-y: auto; /* Add this to make the navbar scrollable if content is too long */
 }
 
 .navbar a {
@@ -55,9 +57,10 @@ body {
     flex-grow: 1;
     padding: 40px;
     background-color: #f9fbe7;
-    overflow: hidden; /* Hide the scrollbar */
+    overflow-y: auto; /* Change from hidden to auto to allow scrolling */
     min-height: 100vh;
     border-radius: 0 15px 15px 0;
+    margin-left: 30px; /* Add this to offset the content from the fixed navbar */
 }
 
 /* Typography */
@@ -180,26 +183,26 @@ input[type="submit"]:hover {
         flex-direction: column;
     }
 
-    .container {
-        flex-direction: column;
+    .navbar a {
+        display: inline-block;
+        margin-right: 1px;
     }
 
     .navbar {
-        width: 100%;
+        position: static; /* Change back to static for mobile */
+        width: auto;
         height: auto;
-        position: static;
-        padding: 15px;
-        border-radius: 15px 15px 0 0;
-    }
-
-    .navbar a {
-        display: inline-block;
-        margin-right: 12px;
+        padding: 3%;
     }
 
     .content {
-        padding: 25px;
-        border-radius: 0 0 15px 15px;
+        margin-left: 0; /* Remove the margin for mobile */
+    }
+
+    .container {
+        width: 100%; /* Full width for mobile */
+        margin-left: 0; /* Remove the margin for mobile */
+        margin-right: 0;
     }
 }
 
