@@ -86,20 +86,26 @@ def category_page(category):
     # Define the sub-subfolders
     sem_subfolders = ['sem1', 'sem2']
 
+    # Define the exam subfolders
+    exam_subfolders = ['insem', 'endsem']
+
     # Get the path to the category's directory
     full_path = os.path.join(app.config['UPLOAD_FOLDER'], category)
     
-    # Create subfolders and sub-subfolders if they don't exist
+    # Create subfolders, sub-subfolders, and exam subfolders if they don't exist
     for folder in subfolders:
         folder_path = os.path.join(full_path, folder)
         for sem_folder in sem_subfolders:
             sem_folder_path = os.path.join(folder_path, sem_folder)
-            os.makedirs(sem_folder_path, exist_ok=True)
+            for exam_folder in exam_subfolders:
+                exam_folder_path = os.path.join(sem_folder_path, exam_folder)
+                os.makedirs(exam_folder_path, exist_ok=True)
 
     # List the subfolders
     contents = os.listdir(full_path)
 
     return render_template(f'{category.lower()}.html', category=category, contents=contents, is_admin=current_user.is_admin)
+
 
 @app.route('/<category>/files/<path:subpath>')
 @login_required
@@ -117,11 +123,21 @@ def browse_files(category, subpath):
 
     if os.path.isdir(full_path):
         contents = os.listdir(full_path)
+        
+        # Check if we're in a semester folder
+        if subpath.endswith('sem1') or subpath.endswith('sem2'):
+            # Ensure 'insem' and 'endsem' folders exist
+            for exam_folder in ['insem', 'endsem']:
+                exam_folder_path = os.path.join(full_path, exam_folder)
+                os.makedirs(exam_folder_path, exist_ok=True)
+            # Refresh contents after creating folders
+            contents = os.listdir(full_path)
+
         return render_template('browse.html',
                                contents=contents,
                                current_path=f'{category}/files/{subpath}',
                                category=category,
-                               subpath=subpath,  # Add this line
+                               subpath=subpath,
                                is_admin=current_user.is_admin)
         
 @app.route('/<category>/<path:subpath>/upload', methods=['POST'])
